@@ -7,7 +7,7 @@ module.exports = {
     author: "AHMED TARIF",
     countDown: 5,
     role: 0,
-		nixPrefix: true,
+	noPrefix: true,
     shortDescription: "Send bot script",
     longDescription: "Send bot specified file ",
     category: "Owner",
