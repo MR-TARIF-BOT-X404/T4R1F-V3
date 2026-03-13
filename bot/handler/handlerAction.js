@@ -25,7 +25,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
                         } catch (e) {}
                 }
 
-                // ————————————————— CHECK NIXPREFIX ————————————————— //
+                // ————————————————— CHECK NOPREFIX ————————————————— //
                 let processedBody = body;
                 if (body) {
                         const bodyTrim = body.trim();
@@ -34,7 +34,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
                         const command = global.GoatBot.commands.get(commandName) || 
                                         global.GoatBot.commands.get(global.GoatBot.aliases.get(commandName));
                         
-                        if (command && command.config && command.config.nixPrefix === true) {
+                        if (command && command.config && command.config.noPrefix === true) {
                                 // Execute command without prefix
                                 processedBody = prefix + bodyTrim;
                                 event.body = processedBody;
