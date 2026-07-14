@@ -4,7 +4,6 @@ module.exports = {
     version: "5.2",
     author: "AHMED TARIF",
     role: 0
-    premium: true,
     description: "${prefix}add uid or message reply",
     category: "Group",
     guide: { en: "added group!" }
