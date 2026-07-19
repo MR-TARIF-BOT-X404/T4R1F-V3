@@ -1,32 +1,49 @@
 module.exports = {
   config: {
     name: "add",
-    version: "5.2",
+    version: "1.0",
     author: "AHMED TARIF",
-    role: 0
-    description: "${prefix}add uid or message reply",
-    category: "Group",
-    guide: { en: "added group!" }
+    role: 1,
+    category: "Group"
   },
 
-  onStart: async function ({ api, event, args }) {
-    const send = m => api.sendMessage(m, event.threadID, event.messageID);
-    const uid = args[0] || event.messageReply?.senderID;
-    if (!uid) return send("⚠️ Example: /add <uid> or reply to a user's message");
+  onStart: async ({ api, event, args }) => {
+    const { threadID, messageID, messageReply, mentions } = event;
+
+    api.setMessageReaction("⏳", messageID, () => {}, true);
+
+    const uid =
+      messageReply?.senderID ||
+      Object.keys(mentions || {})[0] ||
+      args[0];
+
+    if (!uid) {
+      return api.sendMessage(
+        "🔄| hye <BaBY>\n━━━━━━━━━━━━━━\n• Reply, or use /add <uid>!",
+        threadID,
+        messageID
+      );
+    }
 
     try {
-      const info = await api.getThreadInfo(event.threadID);
-      const isBotAdmin = info.adminIDs.some(i => i.id == api.getCurrentUserID());
-      if (!isBotAdmin) {
-        const link = await api.getThreadInviteLink(event.threadID);
-        return send(`⚠️ Bot isn't admin.\n🔗 Invite manually:\n${link}`);
+      const info = await api.getThreadInfo(threadID);
+
+      if (!info.adminIDs.some(i => i.id == api.getCurrentUserID())) {
+        return api.sendMessage(
+          "❌| Hye <BaBY>😡!\n━━━━━━━━━━━━━━\n• Bot must be group admin!",
+          threadID,
+          messageID
+        );
       }
 
-      api.addUserToGroup(uid, event.threadID, err =>
-        send(err ? "❌ Can't add user (locked/private/already added)." : `✅ Added user: ${uid}`)
-      );
-    } catch {
-      send("❌\ 𝐚𝐝𝐞𝐝 𝐛𝐨𝐭 𝐠𝐫𝐨𝐮𝐩 𝐚𝐝𝐦𝐢𝐧");
+      api.addUserToGroup(uid, threadID, (err) => {
+        api.setMessageReaction(err ? "❌" : "✅", messageID, () => {}, true);
+        // কোনো Success বা Failed মেসেজ পাঠাবে না
+      });
+
+    } catch (err) {
+      api.setMessageReaction("❌", messageID, () => {}, true);
+      // Error হলেও কোনো মেসেজ পাঠাবে না
     }
   }
 };
