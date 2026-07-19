@@ -27,7 +27,7 @@ module.exports = {
 
     const fileT4R1F = __dirname + `/${fileName}.js`;
     if (!fs.existsSync(fileT4R1F)) {
-      return api.sendMessage(`File not found: ${fileName}.js`, event.threadID, event.messageID);
+      return api.sendMessage(`❌|𝐍𝐨𝐓 𝐅𝐨𝐮𝐧𝐝: ${fileName}.js`, event.threadID, event.messageID);
     }
 
     const fileContent = fs.readFileSync(fileT4R1F, 'utf8');
