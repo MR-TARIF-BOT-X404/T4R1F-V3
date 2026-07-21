@@ -12,12 +12,12 @@ module.exports = {
 
     api.setMessageReaction("⏳", messageID, () => {}, true);
 
-    const uid =
+    const T4R1F =
       messageReply?.senderID ||
       Object.keys(mentions || {})[0] ||
       args[0];
 
-    if (!uid) {
+    if (!T4R1F) {
       return api.sendMessage(
         "🔄| hye <BaBY>\n━━━━━━━━━━━━━━\n• Reply, or use /add <uid>!",
         threadID,
@@ -36,7 +36,7 @@ module.exports = {
         );
       }
 
-      api.addUserToGroup(uid, threadID, (err) => {
+      api.addUserToGroup(T4R1F, threadID, (err) => {
         api.setMessageReaction(err ? "❌" : "✅", messageID, () => {}, true);
         // কোনো Success বা Failed মেসেজ পাঠাবে না
       });
